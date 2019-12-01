@@ -11,13 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Mail\NewUserWelcomeMail;
 
 Auth::routes();
 
+Route::get('/email', function () {
+    return new NewUserWelcomeMail();
+});
+
+Route::post('follow/{user}', 'FollowsController@store');
+
 // careful as routes need to be in a correct order, in this instance show after create
+Route::get('/', 'PostsController@index');
 Route::get('/p/create', 'PostsController@create');
 Route::get('/p/{post}', 'PostsController@show');
 Route::post('/p', 'PostsController@store');
